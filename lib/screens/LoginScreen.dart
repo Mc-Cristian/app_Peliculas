@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_peliculas/navigation/Drawer.dart';
+import 'package:app_peliculas/screens/PeliculasScreen.dart'; // Asegúrate de importar la pantalla de películas
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -10,7 +11,7 @@ class LoginScreen extends StatelessWidget {
       drawer: const MiDrawer(),
       appBar: AppBar(
         title: const Text(
-          'Iniciar Sesión a  20th Century Studios',
+          'Iniciar Sesión a 20th Century Studios',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
       ),
       body: Container(
         width: double.infinity,
-        height: double.infinity, // Asegura que ocupe toda la pantalla
+        height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF121212), Color(0xFF2E2E2E)],
@@ -105,7 +106,10 @@ class LoginScreen extends StatelessWidget {
 
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Lógica de inicio de sesión aquí
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  PeliculasScreen()),
+                    );
                   },
                   icon: const Icon(
                     Icons.play_circle_fill,

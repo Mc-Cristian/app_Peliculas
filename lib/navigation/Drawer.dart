@@ -1,3 +1,4 @@
+import 'package:app_peliculas/screens/PeliculasScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_peliculas/main.dart';
 import 'package:app_peliculas/screens/LoginScreen.dart';
@@ -68,6 +69,17 @@ class MiDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const RegistroScreen()),
+              );
+            },
+          ),
+          _buildDrawerItem(
+            icon: Icons.movie,
+            text: 'Peliculas',
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => PeliculasScreen()),
               );
             },
           ),
