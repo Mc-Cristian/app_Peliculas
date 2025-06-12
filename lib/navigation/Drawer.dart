@@ -1,8 +1,8 @@
+import 'package:app_peliculas/auth/LoginScreen.dart';
 import 'package:app_peliculas/screens/PeliculasScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_peliculas/main.dart';
-import 'package:app_peliculas/screens/LoginScreen.dart';
-import 'package:app_peliculas/screens/RegistroScreen.dart';
+import 'package:app_peliculas/auth/RegistroScreen.dart';
 
 class MiDrawer extends StatelessWidget {
   const MiDrawer({super.key});

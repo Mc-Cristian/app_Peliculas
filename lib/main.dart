@@ -1,9 +1,14 @@
+import 'package:app_peliculas/auth/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_peliculas/navigation/Drawer.dart';
-import 'package:app_peliculas/screens/LoginScreen.dart';
-import 'package:app_peliculas/screens/RegistroScreen.dart';
+import 'package:app_peliculas/auth/RegistroScreen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  await Supabase.initialize(
+    url: 'https://jbtmfeweefclkumtteol.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpidG1mZXdlZWZjbGt1bXR0ZW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwODg4NzQsImV4cCI6MjA2MzY2NDg3NH0.QscfKeAs_ErVMtx51Yt16_VBL3dqrA2UYZGGSHb4mUo',
+  );
   runApp(const ProyectoF());
 }
 
