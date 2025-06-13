@@ -1,100 +1,125 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ReproduccionScreen extends StatelessWidget {
-  final String titulo;
-  final String imagen;
+class ReproductorScreen extends StatefulWidget {
+  final String videoUrl;
+  final Map<String, dynamic> pelicula;
 
-  const ReproduccionScreen({
+  const ReproductorScreen({
     super.key,
-    required this.titulo,
-    required this.imagen,
+    required this.videoUrl,
+    required this.pelicula,
   });
+
+  @override
+  State<ReproductorScreen> createState() => _ReproductorScreenState();
+}
+
+class _ReproductorScreenState extends State<ReproductorScreen> {
+  late YoutubePlayerController _controller;
+  bool _isPlayerReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Extraer el ID del video de YouTube
+    final videoId = YoutubePlayer.convertUrlToId(widget.videoUrl) ?? 'dQw4w9WgXcQ';
+    
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        enableCaption: true,
+        disableDragSeek: false,
+        loop: false,
+      ),
+    )..addListener(_listener);
+  }
+
+  void _listener() {
+    if (_isPlayerReady && !_controller.value.isFullScreen) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Reproducción de "$titulo"'),
-        backgroundColor: Colors.black87,
+        title: Text(widget.pelicula['titulo']),
+        backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.fullscreen),
+            onPressed: () => _controller.toggleFullScreenMode(),
+          ),
+        ],
       ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.all(16),
-            height: 220,
-            decoration: BoxDecoration(
-              color: Colors.grey[900],
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.white24),
-              image: DecorationImage(
-                image: NetworkImage(imagen),
-                fit: BoxFit.cover,
-                onError: (exception, stackTrace) {},
-              ),
+          YoutubePlayer(
+            controller: _controller,
+            aspectRatio: 16 / 9,
+            showVideoProgressIndicator: true,
+            progressIndicatorColor: Colors.amber,
+            progressColors: const ProgressBarColors(
+              playedColor: Colors.amber,
+              handleColor: Colors.amberAccent,
             ),
-            child: Center(
-              child: Icon(Icons.play_circle_fill, size: 64, color: Colors.white70),
-            ),
+            onReady: () {
+              setState(() {
+                _isPlayerReady = true;
+              });
+            },
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(Icons.fast_rewind, color: Colors.white, size: 32),
-                Icon(Icons.pause_circle_filled, color: Colors.white, size: 48),
-                Icon(Icons.fast_forward, color: Colors.white, size: 32),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Row(
-              children: [
-                Icon(Icons.volume_up, color: Colors.white),
-                Expanded(
-                  child: Slider(
-                    value: 0.5,
-                    onChanged: (_) {},
-                    activeColor: Colors.tealAccent,
-                    inactiveColor: Colors.white24,
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.star, color: Colors.amber),
+                      const SizedBox(width: 4),
+                      Text(
+                        widget.pelicula['rating'].toString(),
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const Spacer(),
+                      Text(
+                        '${widget.pelicula['year']} • ${widget.pelicula['duracion']}',
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DropdownButton<String>(
-                  dropdownColor: Colors.grey[900],
-                  style: const TextStyle(color: Colors.white),
-                  value: 'HD',
-                  items: const [
-                    DropdownMenuItem(value: 'SD', child: Text('Calidad: SD')),
-                    DropdownMenuItem(value: 'HD', child: Text('Calidad: HD')),
-                    DropdownMenuItem(value: 'FHD', child: Text('Calidad: FHD')),
-                  ],
-                  onChanged: (_) {},
-                ),
-                DropdownButton<String>(
-                  dropdownColor: Colors.grey[900],
-                  style: const TextStyle(color: Colors.white),
-                  value: 'Español',
-                  items: const [
-                    DropdownMenuItem(value: 'Español', child: Text('Sub: Español')),
-                    DropdownMenuItem(value: 'Inglés', child: Text('Sub: Inglés')),
-                  ],
-                  onChanged: (_) {},
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Sinopsis:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.pelicula['descripcion'],
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

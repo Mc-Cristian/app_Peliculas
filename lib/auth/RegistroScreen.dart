@@ -1,3 +1,4 @@
+import 'package:app_peliculas/auth/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app_peliculas/navigation/Drawer.dart';
@@ -120,7 +121,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
             // Navegar a la pantalla de películas y eliminar la pila de navegación anterior
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => PeliculasScreen()),
+              MaterialPageRoute(builder: (context) => LoginScreen()),
               (Route<dynamic> route) => false,
             );
           }
