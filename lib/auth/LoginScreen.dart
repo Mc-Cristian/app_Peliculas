@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (mounted) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => PeliculasScreen()), // <--- CORREGIDO: Eliminado 'const'
+            MaterialPageRoute(builder: (context) => PeliculasScreen()),
             (Route<dynamic> route) => false,
           );
         }
@@ -93,19 +93,30 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 4,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF121212), Color(0xFF2E2E2E)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      body: Stack(
+        children: [
+          // Imagen de fondo que ocupa toda la pantalla
+          SizedBox.expand(
+            child: Image.network(
+              'https://resizer.glanacion.com/resizer/v2/logos-originales-de-estudios-de-hollywood-20th-HLSV22NJHFFCDDL5OQ47YB7EJ4.JPG?auth=872c7a2272149bce1813ea83cf3087718fb97f5d8659989490e0a4409bc2c2f4&width=420&height=280&quality=70&smart=true',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-          child: SingleChildScrollView(
+
+          // Degradado encima de la imagen para mejor visibilidad
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xCC121212), Color(0xCC2E2E2E)], // Colores semi-translúcidos
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+
+          // Contenido scrollable
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -217,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app_peliculas/navigation/Drawer.dart';
-import 'package:app_peliculas/screens/PeliculasScreen.dart'; // Asegúrate de que la ruta sea correcta
+import 'package:app_peliculas/screens/PeliculasScreen.dart';
 
 class RegistroScreen extends StatefulWidget {
   const RegistroScreen({super.key});
@@ -14,10 +14,10 @@ class _RegistroScreenState extends State<RegistroScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-  final TextEditingController _fullNameController = TextEditingController(); // Nuevo campo
-  final TextEditingController _phoneNumberController = TextEditingController(); // Nuevo campo
-  final TextEditingController _dateOfBirthController = TextEditingController(); // Nuevo campo
-  String? _selectedGender; // Nuevo campo para selección
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _dateOfBirthController = TextEditingController();
+  String? _selectedGender;
 
   bool _isLoading = false;
   String? _errorMessage;
@@ -43,12 +43,12 @@ class _RegistroScreenState extends State<RegistroScreen> {
         return Theme(
           data: ThemeData.dark().copyWith(
             colorScheme: const ColorScheme.dark(
-              primary: Color(0xFF1C1C1C), // Color principal del calendario
+              primary: Color(0xFF1C1C1C),
               onPrimary: Colors.white,
-              surface: Color(0xFF2E2E2E), // Color de fondo del calendario
+              surface: Color(0xFF2E2E2E),
               onSurface: Colors.white,
             ),
-            dialogBackgroundColor: const Color(0xFF121212), // Fondo del diálogo del calendario
+            dialogBackgroundColor: const Color(0xFF121212),
           ),
           child: child!,
         );
@@ -56,7 +56,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
     );
     if (picked != null) {
       setState(() {
-        _dateOfBirthController.text = "${picked.toLocal()}".split(' ')[0]; // Formato YYYY-MM-DD
+        _dateOfBirthController.text = "${picked.toLocal()}".split(' ')[0];
       });
     }
   }
@@ -93,31 +93,28 @@ class _RegistroScreenState extends State<RegistroScreen> {
     }
 
     try {
-      // 1. Registrar al usuario con correo y contraseña en Supabase Auth
       final AuthResponse authResponse = await Supabase.instance.client.auth.signUp(
         email: email,
         password: password,
       );
 
       if (authResponse.user != null) {
-        final String userId = authResponse.user!.id; // Obtener el ID de usuario de Supabase Auth
+        final String userId = authResponse.user!.id;
 
-        // 2. Insertar los datos adicionales en la tabla 'profiles'
         try {
           await Supabase.instance.client.from('profiles').insert({
-            'id': userId, // Vinculamos el perfil con el ID de usuario de autenticación
+            'id': userId,
             'full_name': fullName,
             'phone_number': phoneNumber,
             'date_of_birth': dateOfBirth,
             'gender': gender,
-            'created_at': DateTime.now().toIso8601String(), // O puedes usar un default en Supabase
+            'created_at': DateTime.now().toIso8601String(),
           });
 
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Registro exitoso. Revisa tu correo para verificar tu cuenta.')),
             );
-            // Navegar a la pantalla de películas y eliminar la pila de navegación anterior
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => PeliculasScreen()),
@@ -125,40 +122,30 @@ class _RegistroScreenState extends State<RegistroScreen> {
             );
           }
         } on PostgrestException catch (e) {
-          // Manejar errores específicos de la base de datos (ej. RLS, constraint violations)
           setState(() {
-            _errorMessage = 'Error al guardar detalles del perfil en la base de datos: ${e.message}';
+            _errorMessage = 'Error al guardar detalles del perfil: ${e.message}';
           });
-          // Opcional: Si la inserción del perfil falla, podrías considerar eliminar el usuario de auth
-          // para evitar tener usuarios sin perfil. Esto depende de tu lógica de negocio.
-          // await Supabase.instance.client.auth.admin.deleteUser(userId);
           return;
         } catch (e) {
-          // Manejar otros errores inesperados durante la inserción del perfil
           setState(() {
-            _errorMessage = 'Ocurrió un error inesperado al guardar el perfil: ${e.toString()}';
+            _errorMessage = 'Error inesperado al guardar el perfil: ${e.toString()}';
           });
-          // Opcional: Eliminar usuario de auth si el perfil falla
-          // await Supabase.instance.client.auth.admin.deleteUser(userId);
           return;
         }
       } else {
-        // Esto se ejecuta si authResponse.user es null, indicando un problema con el registro de autenticación
         setState(() {
           _errorMessage = authResponse.session == null
-              ? 'Error al registrar usuario: Posiblemente ya existe o credenciales inválidas.'
-              : 'Error desconocido durante el registro de autenticación.';
+              ? 'Error al registrar usuario: puede que ya exista.'
+              : 'Error desconocido durante el registro.';
         });
       }
     } on AuthException catch (e) {
-      // Manejar errores específicos de autenticación de Supabase (ej. correo inválido, contraseña débil)
       setState(() {
         _errorMessage = e.message;
       });
     } catch (e) {
-      // Manejar otros errores inesperados
       setState(() {
-        _errorMessage = 'Ocurrió un error inesperado durante el registro: ${e.toString()}';
+        _errorMessage = 'Ocurrió un error inesperado: ${e.toString()}';
       });
     } finally {
       setState(() {
@@ -173,10 +160,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
       extendBodyBehindAppBar: true,
       drawer: const MiDrawer(),
       appBar: AppBar(
-        title: const Text(
-          'Regístrate a 20th Century Studios',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Regístrate a 20th Century Studios', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -184,36 +168,38 @@ class _RegistroScreenState extends State<RegistroScreen> {
       ),
       body: Stack(
         children: [
+          // Imagen de fondo con degradado oscuro
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF121212), Color(0xFF2E2E2E)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF121212), Color(0xFF2E2E2E)],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.darken,
+              child: Image.network(
+                'https://resizer.glanacion.com/resizer/v2/logos-originales-de-estudios-de-hollywood-20th-HLSV22NJHFFCDDL5OQ47YB7EJ4.JPG?auth=872c7a2272149bce1813ea83cf3087718fb97f5d8659989490e0a4409bc2c2f4&width=420&height=280&quality=70&smart=true',
+                fit: BoxFit.cover,
               ),
             ),
           ),
+
+          // Contenido del formulario
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(
-                    Icons.movie_filter,
-                    size: 80,
-                    color: Colors.grey,
-                  ),
+                  const Icon(Icons.movie_filter, size: 80, color: Colors.grey),
                   const SizedBox(height: 20),
                   const Text(
                     'Crea tu cuenta para disfrutar de películas',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
@@ -280,10 +266,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                       : ElevatedButton.icon(
                           onPressed: _signUp,
                           icon: const Icon(Icons.check_circle_outline, color: Colors.white),
-                          label: const Text(
-                            'Crear cuenta',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          label: const Text('Crear cuenta', style: TextStyle(color: Colors.white)),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF1C1C1C),
                             foregroundColor: Colors.white,
@@ -306,7 +289,6 @@ class _RegistroScreenState extends State<RegistroScreen> {
     );
   }
 
-  // Funciones auxiliares para construir los campos de texto y dropdown
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
@@ -362,7 +344,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
           borderSide: const BorderSide(color: Colors.white),
         ),
       ),
-      dropdownColor: const Color(0xFF1C1C1C), // Color de fondo del desplegable
+      dropdownColor: const Color(0xFF1C1C1C),
       style: const TextStyle(color: Colors.white),
       iconEnabledColor: Colors.grey,
       onChanged: (String? newValue) {
