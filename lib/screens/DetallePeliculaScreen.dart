@@ -65,7 +65,7 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
               color: Colors.black.withOpacity(0.5),
               blurRadius: 20,
               spreadRadius: 2,
-            )
+            ),
           ],
         ),
         child: SingleChildScrollView(
@@ -78,7 +78,8 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                   if (!_showTrailer)
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16)),
+                        top: Radius.circular(16),
+                      ),
                       child: Image.network(
                         widget.pelicula['imagen'],
                         height: 220,
@@ -98,13 +99,14 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                   if (_showTrailer)
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16)),
+                        top: Radius.circular(16),
+                      ),
                       child: Container(
                         height: 220,
                         color: Colors.black,
                         child: YoutubePlayer(
                           controller: _controller,
-                          aspectRatio: 16/9,
+                          aspectRatio: 16 / 9,
                           showVideoProgressIndicator: true,
                           progressIndicatorColor: Colors.blueAccent,
                           progressColors: const ProgressBarColors(
@@ -119,7 +121,7 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                         ),
                       ),
                     ),
-                  
+
                   // Botón de cerrar
                   Positioned(
                     top: 10,
@@ -132,7 +134,7 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                       ),
                     ),
                   ),
-                  
+
                   // Botón de favoritos
                   Positioned(
                     top: 10,
@@ -177,7 +179,11 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                           label: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.star, color: Colors.amber, size: 18),
+                              const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 18,
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 widget.pelicula['rating'].toString(),
@@ -188,7 +194,7 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                         ),
                       ],
                     ),
-                    
+
                     // Año y duración
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -202,7 +208,11 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                             ),
                           ),
                           const SizedBox(width: 15),
-                          const Icon(Icons.timer_outlined, color: Colors.white70, size: 16),
+                          const Icon(
+                            Icons.timer_outlined,
+                            color: Colors.white70,
+                            size: 16,
+                          ),
                           const SizedBox(width: 4),
                           const Text(
                             '2h 30m',
@@ -214,22 +224,34 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                         ],
                       ),
                     ),
-                    
+
                     // Géneros
                     Wrap(
                       spacing: 8,
                       children: const [
                         Chip(
-                          label: Text('Acción', style: TextStyle(color: Colors.white70))),
+                          label: Text(
+                            'Acción',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ),
                         Chip(
-                          label: Text('Aventura', style: TextStyle(color: Colors.white70))),
+                          label: Text(
+                            'Aventura',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ),
                         Chip(
-                          label: Text('Ciencia ficción', style: TextStyle(color: Colors.white70))),
+                          label: Text(
+                            'Ciencia ficción',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ),
                       ],
                     ),
-                    
+
                     const SizedBox(height: 16),
-                    
+
                     // Descripción
                     const Text(
                       'Sinopsis:',
@@ -268,13 +290,16 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                side: const BorderSide(color: Colors.grey, width: 0.5),
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.5,
+                                ),
                               ),
                             ),
                           ),
-                          
-                        const SizedBox(width: 15),
+                        ), // ← COMA AQUÍ
 
+                        const SizedBox(width: 15), // ← AHORA ESTÁ BIEN
                         // Botón Tráiler
                         Expanded(
                           child: ElevatedButton.icon(
@@ -296,13 +321,17 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                side: const BorderSide(color: Colors.grey, width: 0.5),
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.5,
+                                ),
                               ),
                             ),
                           ),
-                    ))],
-                      ),
-                    
+                        ),
+                      ],
+                    ),
+
                     // Botones secundarios
                     const SizedBox(height: 16),
                     Row(
@@ -311,12 +340,21 @@ class _DetallePeliculaModalState extends State<DetallePeliculaModal> {
                         TextButton.icon(
                           onPressed: () {},
                           icon: const Icon(Icons.share, color: Colors.white70),
-                          label: const Text('Compartir', style: TextStyle(color: Colors.white70)),
+                          label: const Text(
+                            'Compartir',
+                            style: TextStyle(color: Colors.white70),
+                          ),
                         ),
                         TextButton.icon(
                           onPressed: () {},
-                          icon: const Icon(Icons.info_outline, color: Colors.white70),
-                          label: const Text('Más info', style: TextStyle(color: Colors.white70)),
+                          icon: const Icon(
+                            Icons.info_outline,
+                            color: Colors.white70,
+                          ),
+                          label: const Text(
+                            'Más info',
+                            style: TextStyle(color: Colors.white70),
+                          ),
                         ),
                       ],
                     ),
