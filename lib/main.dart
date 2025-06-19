@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:app_peliculas/navigation/Drawer.dart';
 import 'package:app_peliculas/auth/RegistroScreen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
+//NoriFlix
 Future<void> main() async {
   await Supabase.initialize(
     url: 'https://jbtmfeweefclkumtteol.supabase.co',
@@ -62,8 +62,9 @@ class _CuerpoState extends State<Cuerpo> with TickerProviderStateMixin {
       vsync: this,
     );
     
+    // Animación del shimmer más lenta (era 2000ms, ahora 4000ms)
     _shimmerController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 4000),
       vsync: this,
     );
 
@@ -176,182 +177,198 @@ class _CuerpoState extends State<Cuerpo> with TickerProviderStateMixin {
                 opacity: _fadeAnimation,
                 child: SlideTransition(
                   position: _slideAnimation,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Título con efecto shimmer
-                        AnimatedBuilder(
-                          animation: _shimmerController,
-                          builder: (context, child) {
-                            return ShaderMask(
-                              shaderCallback: (bounds) {
-                                return LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: const [
-                                    Colors.transparent,
-                                    Colors.white,
-                                    Colors.transparent,
-                                  ],
-                                  stops: [
-                                    _shimmerAnimation.value - 0.3,
-                                    _shimmerAnimation.value,
-                                    _shimmerAnimation.value + 0.3,
-                                  ],
-                                ).createShader(bounds);
-                              },
-                              child: const Text(
-                                'NoirFlix',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                  letterSpacing: 2.0,
-                                  shadows: [
-                                    Shadow(
-                                      color: Colors.black54,
-                                      offset: Offset(2, 2),
-                                      blurRadius: 4,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                          
+                          // Título con efecto shimmer más lento
+                          AnimatedBuilder(
+                            animation: _shimmerController,
+                            builder: (context, child) {
+                              return ShaderMask(
+                                shaderCallback: (bounds) {
+                                  return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: const [
+                                      Colors.transparent,
+                                      Colors.white,
+                                      Colors.transparent,
+                                    ],
+                                    stops: [
+                                      _shimmerAnimation.value - 0.3,
+                                      _shimmerAnimation.value,
+                                      _shimmerAnimation.value + 0.3,
+                                    ],
+                                  ).createShader(bounds);
+                                },
+                                child: const Text(
+                                  'NoirFlix',
+                                  style: TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white,
+                                    letterSpacing: 2.0,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black54,
+                                        offset: Offset(2, 2),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            },
+                          ),
+                          
+                          const SizedBox(height: 40),
+                          
+                          // Logo con efectos mejorados
+                          ScaleTransition(
+                            scale: _scaleAnimation,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.8),
+                                    blurRadius: 25,
+                                    offset: const Offset(0, 10),
+                                    spreadRadius: 5,
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    blurRadius: 40,
+                                    offset: const Offset(0, 20),
+                                  ),
+                                ],
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(80),
+                                    child: Image.asset(
+                                      'assets/noirflix.jpg',
+                                      width: 160,
+                                      height: 160,
+                                      fit: BoxFit.cover,
                                     ),
+                                  ),
+                                  // Overlay con brillo sutil
+                                  Container(
+                                    width: 160,
+                                    height: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(80),
+                                      gradient: RadialGradient(
+                                        center: Alignment.topLeft,
+                                        radius: 1.5,
+                                        colors: [
+                                          Colors.white.withOpacity(0.2),
+                                          Colors.transparent,
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 40),
+                          
+                          // Descripción con mejor visibilidad
+                          FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.white.withOpacity(0.15),
+                                    Colors.white.withOpacity(0.05),
                                   ],
+                                ),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.2),
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: const Text(
+                                'Disfruta de las mejores películas para toda la familia, llenas de emoción, aventura y momentos inolvidables, solo con NoirFlix.',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  height: 1.6,
+                                  letterSpacing: 0.5,
+                                  fontWeight: FontWeight.w400,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                            );
-                          },
-                        ),
-                        
-                        const SizedBox(height: 40),
-                        
-                        // Logo con efectos mejorados
-                        ScaleTransition(
-                          scale: _scaleAnimation,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(80),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.8),
-                                  blurRadius: 25,
-                                  offset: const Offset(0, 10),
-                                  spreadRadius: 5,
-                                ),
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  blurRadius: 40,
-                                  offset: const Offset(0, 20),
-                                ),
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 50),
+                          
+                          // Botones con animaciones mejoradas
+                          _buildAnimatedButton(
+                            icon: Icons.login_rounded,
+                            label: 'Iniciar sesión',
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.grey[850]!,
+                                Colors.grey[700]!,
                               ],
                             ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(80),
-                                  child: Image.asset(
-                                    'assets/noirflix.jpg',
-                                    width: 160,
-                                    height: 160,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                // Overlay con brillo sutil
-                                Container(
-                                  width: 160,
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(80),
-                                    gradient: RadialGradient(
-                                      center: Alignment.topLeft,
-                                      radius: 1.5,
-                                      colors: [
-                                        Colors.white.withOpacity(0.2),
-                                        Colors.transparent,
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                              );
+                            },
+                            delay: 300,
+                          ),
+                          
+                          const SizedBox(height: 20),
+                          
+                          _buildAnimatedButton(
+                            icon: Icons.movie_filter_rounded,
+                            label: 'Registrarse',
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.grey[700]!,
+                                Colors.grey[600]!,
                               ],
                             ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const RegistroScreen()),
+                              );
+                            },
+                            delay: 500,
                           ),
-                        ),
-                        
-                        const SizedBox(height: 40),
-                        
-                        // Descripción con animación
-                        AnimatedOpacity(
-                          opacity: _fadeAnimation.value,
-                          duration: const Duration(milliseconds: 1000),
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              gradient: LinearGradient(
-                                colors: [
-                                  const Color.fromARGB(255, 255, 254, 254).withOpacity(0.3),
-                                  const Color.fromARGB(255, 255, 255, 255).withOpacity(0.1),
-                                ],
-                              ),
-                              border: Border.all(
-                                color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.3),
-                                width: 1,
-                              ),
-                            ),
-                            child: const Text(
-                              'Disfruta de las mejores películas para toda la familia, llenas de emoción, aventura y momentos inolvidables, solo con 20th Century Studios.',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(228, 243, 241, 241),
-                                height: 1.5,
-                                letterSpacing: 0.5,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        
-                        const SizedBox(height: 50),
-                        
-                        // Botones con animaciones mejoradas
-                        _buildAnimatedButton(
-                          icon: Icons.login_rounded,
-                          label: 'Iniciar sesión',
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.grey[850]!,
-                              Colors.grey[700]!,
-                            ],
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => const LoginScreen()),
-                            );
-                          },
-                          delay: 300,
-                        ),
-                        
-                        const SizedBox(height: 20),
-                        
-                        _buildAnimatedButton(
-                          icon: Icons.movie_filter_rounded,
-                          label: 'Registrarse',
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.grey[700]!,
-                              Colors.grey[600]!,
-                            ],
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => const RegistroScreen()),
-                            );
-                          },
-                          delay: 500,
-                        ),
-                      ],
+                          
+                          const SizedBox(height: 40),
+                        ],
+                      ),
                     ),
                   ),
                 ),

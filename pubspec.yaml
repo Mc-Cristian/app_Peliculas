@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
+  image_picker: ^1.1.2
   supabase_flutter: ^2.9.1
   youtube_player_flutter: ^9.1.1
 
@@ -17,18 +19,16 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/noirflix.jpg"
+
 flutter:
   uses-material-design: true
   assets:
-<<<<<<< HEAD
     - assets/noirflix.jpg
-=======
-    - assets/logo.jpg
     - assets/data/peliculas.json
->>>>>>> 4c67aea0cba55a455d003afc1e2a5bb4d4b96b89
 
 dependency_overrides:
   flutter_inappwebview: ^6.1.5
-
-
-
