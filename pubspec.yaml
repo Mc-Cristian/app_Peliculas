@@ -20,7 +20,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+<<<<<<< HEAD
     - assets/noirflix.jpg
+=======
+    - assets/logo.jpg
+    - assets/data/peliculas.json
+>>>>>>> 4c67aea0cba55a455d003afc1e2a5bb4d4b96b89
 
 dependency_overrides:
   flutter_inappwebview: ^6.1.5

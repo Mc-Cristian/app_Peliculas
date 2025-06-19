@@ -1,8 +1,6 @@
 import 'package:app_peliculas/auth/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:app_peliculas/navigation/Drawer.dart';
-import 'package:app_peliculas/screens/PeliculasScreen.dart';
 import 'dart:math' as Math;
 
 class RegistroScreen extends StatefulWidget {
@@ -265,7 +263,6 @@ class _RegistroScreenState extends State<RegistroScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      drawer: const MiDrawer(),
       appBar: AppBar(
         title: ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(

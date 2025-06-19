@@ -1,0 +1,142 @@
+{
+  "Películas Populares": [
+    {
+      "titulo": "Avatar",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_.jpg",
+      "descripcion": "Un marine parapléjico es enviado a la luna Pandora en una misión única, pero se enfrenta a un dilema cuando se enamora de una princesa Na'vi.",
+      "rating": 4.8,
+      "year": 2009,
+      "generos": ["Acción", "Aventura", "Ciencia ficción"],
+      "duracion": "2h 42m"
+    },
+    {
+      "titulo": "Deadpool",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg",
+      "descripcion": "Un ex-operativo de las fuerzas especiales se somete a un experimento que le deja con poderes de curación acelerada y adopta el alter ego Deadpool.",
+      "rating": 4.5,
+      "year": 2016,
+      "generos": ["Acción", "Comedia", "Superhéroes"],
+      "duracion": "1h 48m"
+    },
+    {
+      "titulo": "Logan",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BYzc5MTU4N2EtYTkyMi00NjdhLTg3NWEtMTY4OTEyMzJhZTAzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_.jpg",
+      "descripcion": "En un futuro cercano, un envejecido Logan cuida de un enfermo Profesor X en un escondite en la frontera mexicana.",
+      "rating": 4.7,
+      "year": 2017,
+      "generos": ["Acción", "Drama", "Superhéroes"],
+      "duracion": "2h 17m"
+    }
+  ],
+  "Ciencia Ficción y Terror": [
+    {
+      "titulo": "Alien: Covenant",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BYzVkMjRhNzctOGQxMC00OGE2LWJhN2EtNmYyODRiMDNlM2ZmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+      "descripcion": "La tripulación de la nave colonizadora Covenant descubre lo que creen que es un paraíso inexplorado, pero en realidad es un mundo oscuro y peligroso.",
+      "rating": 3.9,
+      "year": 2017,
+      "generos": ["Terror", "Ciencia ficción", "Thriller"],
+      "duracion": "2h 2m"
+    },
+    {
+      "titulo": "The Martian",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BMTc2MTQ3MDA1Nl5BMl5BanBnXkFtZTgwODA3OTI4NjE@._V1_.jpg",
+      "descripcion": "Un astronauta es dejado por muerto en Marte por su tripulación, pero él sobrevive y debe encontrar la manera de comunicar que todavía está vivo.",
+      "rating": 4.3,
+      "year": 2015,
+      "generos": ["Aventura", "Drama", "Ciencia ficción"],
+      "duracion": "2h 24m"
+    }
+  ],
+  "Acción y Aventura": [
+    {
+      "titulo": "Kingsman",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BMTkxMjgwMDM4Ml5BMl5BanBnXkFtZTgwMTk3NTIwNDE@._V1_.jpg",
+      "descripcion": "Una organización de espías recluta a un chico de la calle poco convencional para un programa de entrenamiento ultra competitivo.",
+      "rating": 4.2,
+      "year": 2014,
+      "generos": ["Acción", "Aventura", "Comedia"],
+      "duracion": "2h 9m"
+    }
+  ],
+  "Clásicos del Cine": [
+    {
+      "titulo": "Forrest Gump",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BNWIwODAxNTktNjRlOS00ZjQ4LTg0ZjAtYjM1ZjFmZjA2N2VjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg",
+      "descripcion": "La historia de un hombre con un coeficiente intelectual bajo que, sin embargo, vive una vida extraordinaria.",
+      "rating": 4.9,
+      "year": 1994,
+      "generos": ["Drama", "Romance"],
+      "duracion": "2h 22m"
+    },
+    {
+      "titulo": "El Padrino",
+      "imagen": "https://m.media-amazon.com/images/I/41+eK8zBwQL._AC_.jpg",
+      "descripcion": "La crónica de la familia Corleone, una poderosa dinastía mafiosa en Nueva York.",
+      "rating": 4.9,
+      "year": 1972,
+      "generos": ["Crimen", "Drama"],
+      "duracion": "2h 55m"
+    }
+  ],
+  "Comedias para Reír": [
+    {
+      "titulo": "The Hangover",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BMTQ1NjcwODc4MV5BMl5BanBnXkFtZTcwMjQyNjcyMw@@._V1_.jpg",
+      "descripcion": "Un grupo de amigos pierde al novio durante una despedida de soltero en Las Vegas y debe reconstruir lo sucedido.",
+      "rating": 4.1,
+      "year": 2009,
+      "generos": ["Comedia"],
+      "duracion": "1h 40m"
+    },
+    {
+      "titulo": "Superbad",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BMTY1NTY4MzIxN15BMl5BanBnXkFtZTcwNzg1MTQzMw@@._V1_.jpg",
+      "descripcion": "Dos amigos de secundaria buscan disfrutar su último año antes de la universidad.",
+      "rating": 4.0,
+      "year": 2007,
+      "generos": ["Comedia", "Coming-of-age"],
+      "duracion": "1h 53m"
+    }
+  ],
+  "Thrillers y Suspenso": [
+    {
+      "titulo": "Gone Girl",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BN2Y4YmZmNGEtYzVlOS00NmM1LTg2YzAtYmU3NjRhMGMxNjljXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg",
+      "descripcion": "La desaparición de una mujer desencadena una intensa investigación y secretos ocultos.",
+      "rating": 4.3,
+      "year": 2014,
+      "generos": ["Thriller", "Drama", "Misterio"],
+      "duracion": "2h 29m"
+    },
+    {
+      "titulo": "Shutter Island",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BMTUxMjUyOTM2Ml5BMl5BanBnXkFtZTcwNTI3NjYzMw@@._V1_.jpg",
+      "descripcion": "Un agente federal investiga la desaparición de una paciente en un hospital psiquiátrico aislado.",
+      "rating": 4.4,
+      "year": 2010,
+      "generos": ["Thriller", "Misterio", "Drama"],
+      "duracion": "2h 18m"
+    }
+  ],
+  "Animación para Toda la Familia": [
+    {
+      "titulo": "Coco",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BMTQ5NzI4NTM3OF5BMl5BanBnXkFtZTgwNzg5MDcyOTE@._V1_.jpg",
+      "descripcion": "Un joven aspirante a músico viaja al mundo de los muertos para descubrir el legado de su familia.",
+      "rating": 4.7,
+      "year": 2017,
+      "generos": ["Animación", "Aventura", "Familiar"],
+      "duracion": "1h 45m"
+    },
+    {
+      "titulo": "Toy Story",
+      "imagen": "https://m.media-amazon.com/images/M/MV5BMTk0NTU0NDUzMV5BMl5BanBnXkFtZTgwNjM1OTY0MTE@._V1_.jpg",
+      "descripcion": "Las aventuras de juguetes que cobran vida cuando no hay humanos presentes.",
+      "rating": 4.8,
+      "year": 1995,
+      "generos": ["Animación", "Comedia", "Familiar"],
+      "duracion": "1h 21m"
+    }
+  ]
+}
