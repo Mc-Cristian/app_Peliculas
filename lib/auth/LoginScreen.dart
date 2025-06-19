@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:app_peliculas/navigation/Drawer.dart';
 import 'package:app_peliculas/screens/PeliculasScreen.dart';
 import 'dart:math' as Math;
 
@@ -162,7 +161,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const MiDrawer(),
       appBar: AppBar(
         title: ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(

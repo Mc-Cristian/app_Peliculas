@@ -1,66 +1,192 @@
 import 'package:flutter/material.dart';
 import 'package:app_peliculas/navigation/Drawer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'dart:convert';
 
-class PeliculasScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> peliculas = [
-    {
-      'titulo': 'Avatar',
-      'imagen': 'https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_.jpg',
-      'descripcion': 'Un marine parapléjico es enviado a la luna Pandora en una misión única, pero se enfrenta a un dilema cuando se enamora de una princesa Na\'vi.',
-      'rating': 4.8,
-      'year': 2009,
-      'generos': ['Acción', 'Aventura', 'Ciencia ficción'],
-      'duracion': '2h 42m'
-    },
-    {
-      'titulo': 'Deadpool',
-      'imagen': 'https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg',
-      'descripcion': 'Un ex-operativo de las fuerzas especiales se somete a un experimento que le deja con poderes de curación acelerada y adopta el alter ego Deadpool.',
-      'rating': 4.5,
-      'year': 2016,
-      'generos': ['Acción', 'Comedia', 'Superhéroes'],
-      'duracion': '1h 48m'
-    },
-    {
-      'titulo': 'Logan',
-      'imagen': 'https://m.media-amazon.com/images/M/MV5BYzc5MTU4N2EtYTkyMi00NjdhLTg3NWEtMTY4OTEyMzJhZTAzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_.jpg',
-      'descripcion': 'En un futuro cercano, un envejecido Logan cuida de un enfermo Profesor X en un escondite en la frontera mexicana.',
-      'rating': 4.7,
-      'year': 2017,
-      'generos': ['Acción', 'Drama', 'Superhéroes'],
-      'duracion': '2h 17m'
-    },
-    {
-      'titulo': 'Alien: Covenant',
-      'imagen': 'https://m.media-amazon.com/images/M/MV5BYzVkMjRhNzctOGQxMC00OGE2LWJhN2EtNmYyODRiMDNlM2ZmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg',
-      'descripcion': 'La tripulación de la nave colonizadora Covenant descubre lo que creen que es un paraíso inexplorado, pero en realidad es un mundo oscuro y peligroso.',
-      'rating': 3.9,
-      'year': 2017,
-      'generos': ['Terror', 'Ciencia ficción', 'Thriller'],
-      'duracion': '2h 2m'
-    },
-    {
-      'titulo': 'The Martian',
-      'imagen': 'https://m.media-amazon.com/images/M/MV5BMTc2MTQ3MDA1Nl5BMl5BanBnXkFtZTgwODA3OTI4NjE@._V1_.jpg',
-      'descripcion': 'Un astronauta es dejado por muerto en Marte por su tripulación, pero él sobrevive y debe encontrar la manera de comunicar que todavía está vivo.',
-      'rating': 4.3,
-      'year': 2015,
-      'generos': ['Aventura', 'Drama', 'Ciencia ficción'],
-      'duracion': '2h 24m'
-    },
-    {
-      'titulo': 'Kingsman',
-      'imagen': 'https://m.media-amazon.com/images/M/MV5BMTkxMjgwMDM4Ml5BMl5BanBnXkFtZTgwMTk3NTIwNDE@._V1_.jpg',
-      'descripcion': 'Una organización de espías recluta a un chico de la calle poco convencional para un programa de entrenamiento ultra competitivo.',
-      'rating': 4.2,
-      'year': 2014,
-      'generos': ['Acción', 'Aventura', 'Comedia'],
-      'duracion': '2h 9m'
-    },
-  ];
+class PeliculasScreen extends StatefulWidget {
+  const PeliculasScreen({super.key});
 
-  PeliculasScreen({super.key});
+  @override
+  State<PeliculasScreen> createState() => _PeliculasScreenState();
+}
+
+class _PeliculasScreenState extends State<PeliculasScreen> {
+  late Map<String, dynamic> _peliculasData = {};
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPeliculasData();
+  }
+
+  Future<void> _loadPeliculasData() async {
+    final jsonString = '''
+    {
+      "Películas Populares": [
+        {
+          "titulo": "Avatar",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_.jpg",
+          "descripcion": "Un marine parapléjico es enviado a la luna Pandora en una misión única, pero se enfrenta a un dilema cuando se enamora de una princesa Na'vi.",
+          "rating": 4.8,
+          "year": 2009,
+          "generos": ["Acción", "Aventura", "Ciencia ficción"],
+          "duracion": "2h 42m",
+          "trailer": "d9MyW72ELq0"
+        },
+        {
+          "titulo": "Deadpool",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg",
+          "descripcion": "Un ex-operativo de las fuerzas especiales se somete a un experimento que le deja con poderes de curación acelerada y adopta el alter ego Deadpool.",
+          "rating": 4.5,
+          "year": 2016,
+          "generos": ["Acción", "Comedia", "Superhéroes"],
+          "duracion": "1h 48m",
+          "trailer": "ONHBaC-pfsk"
+        },
+        {
+          "titulo": "Logan",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BYzc5MTU4N2EtYTkyMi00NjdhLTg3NWEtMTY4OTEyMzJhZTAzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_.jpg",
+          "descripcion": "En un futuro cercano, un envejecido Logan cuida de un enfermo Profesor X en un escondite en la frontera mexicana.",
+          "rating": 4.7,
+          "year": 2017,
+          "generos": ["Acción", "Drama", "Superhéroes"],
+          "duracion": "2h 17m",
+          "trailer": "Div0iP65aZo"
+        }
+      ],
+      "Ciencia Ficción y Terror": [
+        {
+          "titulo": "Alien: Covenant",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BYzVkMjRhNzctOGQxMC00OGE2LWJhN2EtNmYyODRiMDNlM2ZmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+          "descripcion": "La tripulación de la nave colonizadora Covenant descubre lo que creen que es un paraíso inexplorado, pero en realidad es un mundo oscuro y peligroso.",
+          "rating": 3.9,
+          "year": 2017,
+          "generos": ["Terror", "Ciencia ficción", "Thriller"],
+          "duracion": "2h 2m",
+          "trailer": "svnAD0TApb8"
+        },
+        {
+          "titulo": "The Martian",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BMTc2MTQ3MDA1Nl5BMl5BanBnXkFtZTgwODA3OTI4NjE@._V1_.jpg",
+          "descripcion": "Un astronauta es dejado por muerto en Marte por su tripulación, pero él sobrevive y debe encontrar la manera de comunicar que todavía está vivo.",
+          "rating": 4.3,
+          "year": 2015,
+          "generos": ["Aventura", "Drama", "Ciencia ficción"],
+          "duracion": "2h 24m",
+          "trailer": "ej3ioOneTy8"
+        }
+      ],
+      "Acción y Aventura": [
+        {
+          "titulo": "Kingsman",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BMTkxMjgwMDM4Ml5BMl5BanBnXkFtZTgwMTk3NTIwNDE@._V1_.jpg",
+          "descripcion": "Una organización de espías recluta a un chico de la calle poco convencional para un programa de entrenamiento ultra competitivo.",
+          "rating": 4.2,
+          "year": 2014,
+          "generos": ["Acción", "Aventura", "Comedia"],
+          "duracion": "2h 9m",
+          "trailer": "kl8F-8tR8to"
+        }
+      ],
+      "Clásicos del Cine": [
+        {
+          "titulo": "Forrest Gump",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BNWIwODAxNTktNjRlOS00ZjQ4LTg0ZjAtYjM1ZjFmZjA2N2VjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg",
+          "descripcion": "La historia de un hombre con un coeficiente intelectual bajo que, sin embargo, vive una vida extraordinaria.",
+          "rating": 4.9,
+          "year": 1994,
+          "generos": ["Drama", "Romance"],
+          "duracion": "2h 22m",
+          "trailer": "bLvqoHBptjg"
+        },
+        {
+          "titulo": "El Padrino",
+          "imagen": "https://m.media-amazon.com/images/I/41+eK8zBwQL._AC_.jpg",
+          "descripcion": "La crónica de la familia Corleone, una poderosa dinastía mafiosa en Nueva York.",
+          "rating": 4.9,
+          "year": 1972,
+          "generos": ["Crimen", "Drama"],
+          "duracion": "2h 55m",
+          "trailer": "sY1S34973zA"
+        }
+      ],
+      "Comedias para Reír": [
+        {
+          "titulo": "The Hangover",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BMTQ1NjcwODc4MV5BMl5BanBnXkFtZTcwMjQyNjcyMw@@._V1_.jpg",
+          "descripcion": "Un grupo de amigos pierde al novio durante una despedida de soltero en Las Vegas y debe reconstruir lo sucedido.",
+          "rating": 4.1,
+          "year": 2009,
+          "generos": ["Comedia"],
+          "duracion": "1h 40m",
+          "trailer": "vhFVZsk3XaI"
+        },
+        {
+          "titulo": "Superbad",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BMTY1NTY4MzIxN15BMl5BanBnXkFtZTcwNzg1MTQzMw@@._V1_.jpg",
+          "descripcion": "Dos amigos de secundaria buscan disfrutar su último año antes de la universidad.",
+          "rating": 4.0,
+          "year": 2007,
+          "generos": ["Comedia", "Coming-of-age"],
+          "duracion": "1h 53m",
+          "trailer": "4eaZ_48ZYog"
+        }
+      ],
+      "Thrillers y Suspenso": [
+        {
+          "titulo": "Gone Girl",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BN2Y4YmZmNGEtYzVlOS00NmM1LTg2YzAtYmU3NjRhMGMxNjljXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg",
+          "descripcion": "La desaparición de una mujer desencadena una intensa investigación y secretos ocultos.",
+          "rating": 4.3,
+          "year": 2014,
+          "generos": ["Thriller", "Drama", "Misterio"],
+          "duracion": "2h 29m",
+          "trailer": "2-_-1nJf8Vg"
+        },
+        {
+          "titulo": "Shutter Island",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BMTUxMjUyOTM2Ml5BMl5BanBnXkFtZTcwNTI3NjYzMw@@._V1_.jpg",
+          "descripcion": "Un agente federal investiga la desaparición de una paciente en un hospital psiquiátrico aislado.",
+          "rating": 4.4,
+          "year": 2010,
+          "generos": ["Thriller", "Misterio", "Drama"],
+          "duracion": "2h 18m",
+          "trailer": "5iaYLCiq5RM"
+        }
+      ],
+      "Animación para Toda la Familia": [
+        {
+          "titulo": "Coco",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BMTQ5NzI4NTM3OF5BMl5BanBnXkFtZTgwNzg5MDcyOTE@._V1_.jpg",
+          "descripcion": "Un joven aspirante a músico viaja al mundo de los muertos para descubrir el legado de su familia.",
+          "rating": 4.7,
+          "year": 2017,
+          "generos": ["Animación", "Aventura", "Familiar"],
+          "duracion": "1h 45m",
+          "trailer": "Ga6RYejo6Hk"
+        },
+        {
+          "titulo": "Toy Story",
+          "imagen": "https://m.media-amazon.com/images/M/MV5BMTk0NTU0NDUzMV5BMl5BanBnXkFtZTgwNjM1OTY0MTE@._V1_.jpg",
+          "descripcion": "Las aventuras de juguetes que cobran vida cuando no hay humanos presentes.",
+          "rating": 4.8,
+          "year": 1995,
+          "generos": ["Animación", "Comedia", "Familiar"],
+          "duracion": "1h 21m",
+          "trailer": "KYz2wyBy3kc"
+        }
+      ]
+    }
+    ''';
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      _peliculasData = json.decode(jsonString);
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +194,7 @@ class PeliculasScreen extends StatelessWidget {
       drawer: const MiDrawer(),
       appBar: AppBar(
         title: const Text(
-          'PELÍCULAS DE ACCIÓN',
+          'CATÁLOGO DE PELÍCULAS',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -98,41 +224,59 @@ class PeliculasScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF121212), Color(0xFF1E1E1E)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.65,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final pelicula = peliculas[index];
-                    return _MovieCard(pelicula: pelicula);
-                  },
-                  childCount: peliculas.length,
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF121212), Color(0xFF1E1E1E)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
               ),
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: _peliculasData.length,
+                itemBuilder: (context, categoryIndex) {
+                  final category = _peliculasData.keys.elementAt(categoryIndex);
+                  final peliculas = _peliculasData[category] as List<dynamic>;
+                  
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+                        child: Text(
+                          category,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 220,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          itemCount: peliculas.length,
+                          itemBuilder: (context, index) {
+                            final pelicula = peliculas[index];
+                            return Container(
+                              width: 140,
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                              child: _MovieCard(pelicula: pelicula),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  );
+                },
+              ),
             ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 20),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -152,148 +296,70 @@ class _MovieCard extends StatelessWidget {
           barrierColor: Colors.black87,
         );
       },
-      child: Hero(
-        tag: 'poster-${pelicula['titulo']}',
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.4),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              )
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                // Poster de la película
-                Image.network(
-                  pelicula['imagen'],
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      color: Colors.grey[900],
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                pelicula['imagen'],
+                fit: BoxFit.cover,
+                width: double.infinity,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    color: Colors.grey[900],
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
                       ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.grey[800],
-                      child: const Center(
-                        child: Icon(Icons.broken_image, 
-                          color: Colors.white54, 
-                          size: 40),
-                      ),
-                    );
-                  },
-                ),
-                
-                // Gradiente para mejor legibilidad
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.8),
-                      ],
                     ),
-                  ),
-                ),
-                
-                // Badge de rating
-                Positioned(
-                  top: 8,
-                  left: 8,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[800],
+                    child: const Center(
+                      child: Icon(Icons.broken_image, 
+                        color: Colors.white54, 
+                        size: 40),
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.amber[700],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.star, 
-                          color: Colors.white, 
-                          size: 14),
-                        const SizedBox(width: 4),
-                        Text(
-                          pelicula['rating'].toString(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                
-                // Información de la película
-                Positioned(
-                  left: 10,
-                  right: 10,
-                  bottom: 10,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        pelicula['titulo'],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black,
-                              blurRadius: 6,
-                              offset: Offset(0, 2),
-                        )],
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        pelicula['year'].toString(),
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
-                          fontSize: 13,
-                          shadows: const [
-                            Shadow(
-                              color: Colors.black,
-                              blurRadius: 6,
-                              offset: Offset(0, 2),
-                        )],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
           ),
-        ),
+          const SizedBox(height: 8),
+          Text(
+            pelicula['titulo'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Row(
+            children: [
+              const Icon(Icons.star, 
+                color: Colors.amber, 
+                size: 14),
+              const SizedBox(width: 4),
+              Text(
+                pelicula['rating'].toString(),
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -317,18 +383,8 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
   @override
   void initState() {
     super.initState();
-    final trailerIds = {
-      'Avatar': 'd9MyW72ELq0',
-      'Deadpool': 'ONHBaC-pfsk',
-      'Logan': 'Div0iP65aZo',
-      'Alien: Covenant': 'svnAD0TApb8',
-      'The Martian': 'ej3ioOneTy8',
-      'Kingsman': 'kl8F-8tR8to',
-    };
-    final videoId = trailerIds[widget.pelicula['titulo']] ?? 'dQw4w9WgXcQ';
-    
     _controller = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: widget.pelicula['trailer'] ?? 'dQw4w9WgXcQ',
       flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
@@ -364,7 +420,6 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Encabezado con imagen/trailer
                 Stack(
                   children: [
                     if (!_showTrailer)
@@ -406,7 +461,6 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                         ),
                       ),
                     
-                    // Botón de cerrar
                     Positioned(
                       top: 10,
                       right: 10,
@@ -421,7 +475,6 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                       ),
                     ),
                     
-                    // Botón de favoritos
                     Positioned(
                       top: 10,
                       left: 10,
@@ -446,13 +499,11 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                   ],
                 ),
                 
-                // Contenido
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Título y rating
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -486,7 +537,6 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                         ],
                       ),
                       
-                      // Año y duración
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Row(
@@ -514,13 +564,12 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                         ),
                       ),
                       
-                      // Géneros
                       Wrap(
                         spacing: 8,
                         runSpacing: 6,
-                        children: (widget.pelicula['generos'] as List<String>)
+                        children: (widget.pelicula['generos'] as List<dynamic>)
                             .map((genero) => Chip(
-                                  label: Text(genero,
+                                  label: Text(genero.toString(),
                                       style: const TextStyle(
                                           color: Colors.white70)),
                                   backgroundColor: Colors.grey[800],
@@ -534,7 +583,6 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                       
                       const SizedBox(height: 16),
                       
-                      // Descripción
                       const Text(
                         'Sinopsis:',
                         style: TextStyle(
@@ -555,10 +603,8 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                       ),
                       const SizedBox(height: 20),
                       
-                      // Botones principales
                       Row(
                         children: [
-                          // Botón Ver Película
                           Expanded(
                             child: ElevatedButton.icon(
                               onPressed: () {
@@ -578,7 +624,6 @@ class _MovieDetailsModalState extends State<_MovieDetailsModal> {
                           ),
                           const SizedBox(width: 15),
                           
-                          // Botón Tráiler
                           Expanded(
                             child: ElevatedButton.icon(
                               onPressed: () {

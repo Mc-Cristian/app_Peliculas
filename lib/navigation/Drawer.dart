@@ -1,11 +1,16 @@
-import 'package:app_peliculas/auth/LoginScreen.dart';
+import 'dart:convert';
+
+import 'package:app_peliculas/screens/BuscarScreen.dart';
+import 'package:app_peliculas/screens/CategoriasScreen.dart';
 import 'package:app_peliculas/screens/PeliculasScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_peliculas/main.dart';
-import 'package:app_peliculas/auth/RegistroScreen.dart';
 
 class MiDrawer extends StatelessWidget {
-  const MiDrawer({super.key});
+  final bool isLoggedIn;
+  final String? userName;
+
+  const MiDrawer({super.key, this.isLoggedIn = false, this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +30,15 @@ class MiDrawer extends StatelessWidget {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
+                children: [
                   CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white24,
-                    child: Icon(
-                      Icons.person,
-                      size: 50,
-                      color: Colors.white,
-                    ),
+                    child: Icon(Icons.person, size: 50, color: Colors.white),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Bienvenido',
+                    isLoggedIn ? 'Hola, $userName!' : 'Bienvenido',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -50,31 +51,8 @@ class MiDrawer extends StatelessWidget {
           ),
 
           _buildDrawerItem(
-            icon: Icons.login,
-            text: 'Iniciar Sesión',
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-              );
-            },
-          ),
-
-          _buildDrawerItem(
-            icon: Icons.person_add,
-            text: 'Registrarse',
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const RegistroScreen()),
-              );
-            },
-          ),
-          _buildDrawerItem(
             icon: Icons.movie,
-            text: 'Peliculas',
+            text: 'Películas',
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -85,16 +63,47 @@ class MiDrawer extends StatelessWidget {
           ),
 
           _buildDrawerItem(
-            icon: Icons.home,
-            text: 'Inicio',
+            icon: Icons.search,
+            text: 'Buscar',
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const ProyectoF()),
+                MaterialPageRoute(
+                  builder: (_) => const BuscarScreen(), // ya no se pasan datos
+                ),
               );
             },
           ),
+
+          _buildDrawerItem(
+            icon: Icons.category,
+            text: 'Categorías',
+            onTap: () {
+              Navigator.pop(context);
+              // Aquí puedes agregar la navegación a la pantalla de categorías
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CategoriasScreen(peliculas: []),
+                ),
+              );
+            },
+          ),
+
+          // Opción de cerrar sesión si está logueado
+          if (isLoggedIn)
+            _buildDrawerItem(
+              icon: Icons.logout,
+              text: 'Cerrar Sesión',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProyectoF()),
+                );
+              },
+            ),
         ],
       ),
     );
@@ -107,13 +116,8 @@ class MiDrawer extends StatelessWidget {
   }) {
     return ListTile(
       leading: Icon(icon, color: Colors.white),
-      title: Text(
-        text,
-        style: const TextStyle(color: Colors.white),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      title: Text(text, style: const TextStyle(color: Colors.white)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       hoverColor: Colors.grey.withOpacity(0.1),
       onTap: onTap,
     );
