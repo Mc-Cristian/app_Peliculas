@@ -272,7 +272,7 @@ class _RegistroScreenState extends State<RegistroScreen>
             colors: [Colors.white, Colors.grey, Colors.white],
           ).createShader(bounds),
           child: const Text(
-            'Regístrate a 20th Century Studios',
+            'Regístrate a NoirFlix',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -332,7 +332,7 @@ class _RegistroScreenState extends State<RegistroScreen>
                   child: Opacity(
                     opacity: 0.3,
                     child: Image.network(
-                      'https://resizer.glanacion.com/resizer/v2/logos-originales-de-estudios-de-hollywood-20th-HLSV22NJHFFCDDL5OQ47YB7EJ4.JPG?auth=872c7a2272149bce1813ea83cf3087718fb97f5d8659989490e0a4409bc2c2f4&width=420&height=280&quality=70&smart=true',
+                      'https://st4.depositphotos.com/1536490/21371/v/450/depositphotos_213718594-stock-illustration-icon-black-retro-movie-camera.jpg',
                       fit: BoxFit.cover,
                     ),
                   ),

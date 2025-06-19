@@ -203,7 +203,7 @@ class _CuerpoState extends State<Cuerpo> with TickerProviderStateMixin {
                                 ).createShader(bounds);
                               },
                               child: const Text(
-                                '20th Century Studios',
+                                'NoirFlix',
                                 style: TextStyle(
                                   fontSize: 32,
                                   fontWeight: FontWeight.w900,
@@ -250,7 +250,7 @@ class _CuerpoState extends State<Cuerpo> with TickerProviderStateMixin {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(80),
                                   child: Image.asset(
-                                    'assets/logo.jpg',
+                                    'assets/noirflix.jpg',
                                     width: 160,
                                     height: 160,
                                     fit: BoxFit.cover,
@@ -289,12 +289,12 @@ class _CuerpoState extends State<Cuerpo> with TickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(15),
                               gradient: LinearGradient(
                                 colors: [
-                                  Colors.black.withOpacity(0.3),
-                                  Colors.grey.withOpacity(0.1),
+                                  const Color.fromARGB(255, 255, 254, 254).withOpacity(0.3),
+                                  const Color.fromARGB(255, 255, 255, 255).withOpacity(0.1),
                                 ],
                               ),
                               border: Border.all(
-                                color: Colors.grey.withOpacity(0.3),
+                                color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.3),
                                 width: 1,
                               ),
                             ),
@@ -302,7 +302,7 @@ class _CuerpoState extends State<Cuerpo> with TickerProviderStateMixin {
                               'Disfruta de las mejores películas para toda la familia, llenas de emoción, aventura y momentos inolvidables, solo con 20th Century Studios.',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.white70,
+                                color: Color.fromARGB(228, 243, 241, 241),
                                 height: 1.5,
                                 letterSpacing: 0.5,
                               ),
